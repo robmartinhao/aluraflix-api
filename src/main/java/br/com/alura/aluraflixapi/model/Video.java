@@ -3,6 +3,7 @@ package br.com.alura.aluraflixapi.model;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -10,17 +11,20 @@ import javax.validation.constraints.Size;
 @Table(name="video")
 public class Video {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+
+    @NotBlank(message = "O título não pode ser em branco")
     @Size(min = 2, max = 30)
     private String titulo;
+
     @NotNull
     @Size(min = 3, max = 50)
     private String descricao;
 
     @NotNull
-    @URL
+    @URL(message = "A url não é valida. (http://www.example.com)")
     private String url;
 
     public Long getId() {
