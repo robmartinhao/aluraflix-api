@@ -24,6 +24,7 @@ public class Video {
     private String descricao;
 
     @NotNull
+    @Size(min = 3, max = 50)
     @URL(message = "A url não é valida. (http://www.example.com)")
     private String url;
 
