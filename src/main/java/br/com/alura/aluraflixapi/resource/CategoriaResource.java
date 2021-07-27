@@ -44,4 +44,10 @@ public class CategoriaResource {
         Categoria categoriaSalva = categoriaService.atualizar(id, categoria);
         return ResponseEntity.ok(categoriaSalva);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long id) {
+        categoriaRepository.deleteById(id);
+    }
 }
