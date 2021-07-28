@@ -51,4 +51,12 @@ public class VideoService {
 
         return videoRepository.save(video);
     }
+
+    public List<Video> buscarVideosPelaCategoria(Long id) {
+
+        categoriaRepository.findById(id)
+                .orElseThrow(() -> new CategoriaInexistenteException());
+
+        return videoRepository.buscarVideosPelaCategoria(id);
+    }
 }

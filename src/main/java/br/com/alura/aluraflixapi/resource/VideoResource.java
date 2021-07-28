@@ -7,7 +7,6 @@ import br.com.alura.aluraflixapi.service.VideoService;
 import br.com.alura.aluraflixapi.service.exception.CategoriaInexistenteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +43,12 @@ public class VideoResource {
         return videoRepository.findById(id)
                 .map(video -> ResponseEntity.ok(video))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "recurso.nao-encontrado"));
+    }
+
+    @GetMapping("/categoria/{id}")
+    public ResponseEntity<List<Video>> buscarVideosPelaCategoria(@PathVariable Long id) throws ResponseStatusException {
+        List<Video> videos = videoService.buscarVideosPelaCategoria(id);
+        return ResponseEntity.ok(videos);
     }
 
     @PostMapping
