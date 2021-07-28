@@ -59,4 +59,9 @@ public class VideoService {
 
         return videoRepository.buscarVideosPelaCategoria(id);
     }
+
+    public List<Video> buscarVideosPeloTitulo(String titulo) {
+
+        return videoRepository.buscarVideosPeloTitulo(titulo);
+    }
 }

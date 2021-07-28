@@ -51,6 +51,12 @@ public class VideoResource {
         return ResponseEntity.ok(videos);
     }
 
+    @GetMapping("/titulo/{titulo}")
+    public ResponseEntity<List<Video>> buscarVideosPeloTitulo(@PathVariable String titulo) throws ResponseStatusException {
+        List<Video> videos = videoService.buscarVideosPeloTitulo(titulo);
+        return ResponseEntity.ok(videos);
+    }
+
     @PostMapping
     public ResponseEntity<Video> criar(@Valid @RequestBody Video video) {
         Video videoSalvo = videoService.salvar(video);
