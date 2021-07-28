@@ -13,12 +13,25 @@ public class Categoria {
     public Long id;
 
     @Size(min = 3, max = 30)
-    @NotBlank(message = "O título não pode ser em branco")
+    @NotBlank(message = "O campo título não pode ser em branco")
     public String titulo;
 
     @Size(min = 3, max = 7)
-    @NotBlank(message = "O cor não pode ser em branco")
+    @NotBlank(message = "O campo cor não pode ser em branco")
     public String cor;
+
+    public Categoria() {
+
+    }
+
+    public Categoria(Long id, String titulo, String cor) {
+        this.id = id;
+        this.titulo = titulo;
+        this.cor = cor;
+    }
+
+    public Categoria(int i, String livre, String s) {
+    }
 
     public Long getId() {
         return id;

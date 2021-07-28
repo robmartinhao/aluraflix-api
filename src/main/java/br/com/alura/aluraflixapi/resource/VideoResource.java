@@ -1,16 +1,23 @@
 package br.com.alura.aluraflixapi.resource;
 
+import br.com.alura.aluraflixapi.exceptionhandler.AluraflixExceptionHandler;
 import br.com.alura.aluraflixapi.model.Video;
 import br.com.alura.aluraflixapi.repository.VideoRepository;
 import br.com.alura.aluraflixapi.service.VideoService;
+import br.com.alura.aluraflixapi.service.exception.CategoriaInexistenteException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/videos")
@@ -21,6 +28,11 @@ public class VideoResource {
 
     @Autowired
     private VideoService videoService;
+
+    @Autowired
+    private MessageSource messageSource;
+
+    private Locale locale = new Locale("pt","BR");
 
     @GetMapping
     public List<Video> listar() {
@@ -36,8 +48,17 @@ public class VideoResource {
 
     @PostMapping
     public ResponseEntity<Video> criar(@Valid @RequestBody Video video) {
-        Video videoSalvo = videoRepository.save(video);
+        Video videoSalvo = videoService.salvar(video);
         return ResponseEntity.status(HttpStatus.CREATED).body(videoSalvo);
+    }
+
+    @ExceptionHandler({CategoriaInexistenteException.class})
+    public ResponseEntity<Object> handleCategoriaInexistenteException(CategoriaInexistenteException ex, WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("categoria.inexistente", null, locale);
+        String mensagemDesenvolvedor = ex.toString();
+        List<AluraflixExceptionHandler.Erro> erros = Arrays.asList(new AluraflixExceptionHandler.Erro(mensagemUsuario, mensagemDesenvolvedor));
+
+        return ResponseEntity.badRequest().body(erros);
     }
 
     @PutMapping("/{id}")

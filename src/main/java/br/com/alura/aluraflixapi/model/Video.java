@@ -28,6 +28,10 @@ public class Video {
     @URL(message = "A url não é valida. (http://www.example.com)")
     private String url;
 
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
+
     public Long getId() {
         return id;
     }
@@ -58,5 +62,13 @@ public class Video {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
